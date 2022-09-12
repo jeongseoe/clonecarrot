@@ -1,11 +1,22 @@
-import React from "react";
+// import React from "react";
+import styled from "styled-components";
+import PostComponent from "../components/List/PostComponent";
 
 const Post = () => {
     return (
-        <div>게시물 작성 페이지 입니다.
-            이곳은 대현의 작업 구간입니다.
-        </div>
+        <ComponentWrap>
+            post 입니다.
+            
+            <PostComponent/> 
+        </ComponentWrap>
     );
 };
 
 export default Post;
+
+const ComponentWrap = styled.div`
+  width: 80vw;
+  margin: 50px auto;
+  
+  background-color: green;
+  `

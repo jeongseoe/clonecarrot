@@ -1,0 +1,14 @@
+{
+  "posts": [
+    {
+      "title": "string",
+      "tag": "string",
+      "price": "number",
+      "content": "string",
+      "location": "string"
+    }
+      
+  ]
+  
+  
+}
