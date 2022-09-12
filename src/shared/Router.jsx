@@ -5,13 +5,11 @@ import List from "../pages/List";
 import Mypage from "../pages/Mypage";
 import Post from "../pages/Post";
 import Register from "../pages/Register";
-import Header from "../components/Header/Header";
 import Detail from "../pages/Detail";
 
 const Router = () => {
     return (
         <BrowserRouter>
-            <Header />
             <Routes>
                 <Route path="/" exact element={<Home />} />
                 <Route path="list" exact element={<List />} />

@@ -1,4 +1,6 @@
 import React from "react"
+import Login from "../components/Form/Login"
+
 import { useNavigate } from "react-router-dom";
 
 
@@ -8,7 +10,7 @@ const Home = () => {
 
     return (
         <div>
-            로그인 페이지 입니다.
+            <Login />
             <button onClick={() => {navigate('/post')}}>post로~</button>
             <button onClick={() => {navigate('/detail/:id')}}>detail로~</button>
         </div>

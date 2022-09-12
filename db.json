@@ -1,0 +1,56 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "carrotposts": [
+      {
+        "title": "string1",
+        "tag": "string1",
+        "price": "number1",
+        "content": "string1",
+        "location": "string1"
+      },
+      {
+        "title": "string2",
+        "tag": "string2",
+        "price": "number2",
+        "content": "string2",
+        "location": "string2"
+      }, 
+      {
+        "title": "string3",
+        "tag": "string3",
+        "price": "number3",
+        "content": "string3",
+        "location": "string3"
+      }, 
+      {
+        "title": "string4",
+        "tag": "string4",
+        "price": "number4",
+        "content": "string4",
+        "location": "string4"
+      }, 
+      {
+        "title": "string5",
+        "tag": "string5",
+        "price": "number5",
+        "content": "string5",
+        "location": "string5"
+      }   
+    ]
+}
