@@ -5,6 +5,7 @@ import List from "../pages/List";
 import Mypage from "../pages/Mypage";
 import Post from "../pages/Post";
 import Register from "../pages/Register";
+import Detail from "../components/Detail/Detail";
 
 const Router = () => {
     return (
@@ -15,7 +16,7 @@ const Router = () => {
                 <Route path="signup" exact element={<Register />} />
                 <Route path="post" exact element={<Post />} />
                 <Route path="Mypage" exact element={<Mypage />} />
-                <Route path="detail/:id" exact element={<Mypage />} />
+                <Route path="detail/:id" exact element={<Detail />} />
                 <Route path='*' element={<div>404 Not Found</div>} />
             </Routes>
         </BrowserRouter>
