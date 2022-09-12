@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import logo from "../Header/carrot.png";
+import logo from "../../logo.svg";
 import { useNavigate } from "react-router-dom";
 
 const Header = () => {

@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import formheader from "../Form/formheader.jpg";
+import logo from "../../logo.svg";
+
 
 const Form = () => {
     return (
         <StRegisterBox>
-            <StImg src={formheader} alt="header" />
+            <StImg src={logo} alt="header" />
             <form style={{ marginTop: "10px" }}>
                 <InputWrap>
                     <StLabel style={{ marginRight: "5px" }}>아이디</StLabel>
@@ -60,9 +61,11 @@ const StRegisterBox = styled.div`
 
 //타이틀
 const StImg = styled.img`
-height: 10vw;
+height: 8vw;
 width: 45vw;
 border-radius: 10px;
+margin-top: 20px;
+margin-bottom: 20px;
 `;
 
 
