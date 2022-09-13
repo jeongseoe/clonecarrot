@@ -19,17 +19,17 @@ const Form = () => {
   const [passwordConfirmError, setPasswordConfirmError] = useState(false);
 
 
+  //유효성 체크 
 
   const onChangenickname = (e) => {
-    console.log("e.target.value is", e.target.value)
-    console.log("e.target.value.length is ", e.target.value.length)
+    // console.log("e.target.value is", e.target.value)
+    // console.log("e.target.value.length is ", e.target.value.length)
     const nicknameRegex = /^[A-Za-z0-9+]{4,10}$/;
     if ((4 < e.target.value.length < 10 && (nicknameRegex.test(e.target.value))))
       setnicknameError(false);
     else if (e.target.value.length === 0 || !(nicknameRegex.test(e.target.value))) {
       setnicknameError(true);
     }
-    // setInput(e.target.value);
 
 
     const { name, value } = e.target;
@@ -82,13 +82,8 @@ const Form = () => {
       password: password,
       passwordConfirm: passwordConfirm
     };
-    // if (input.password !== input.passwordConfirm) {
-    //   return alert('비밀번호가 일치하지 않습니다')
-    // }
-
-    // else {
+    console.log("user is ", user)
     try {
-      // console.log(payload);
 
       const data = await axios.post("http://3.36.71.186:8080/api/member/signup", user);
       console.log(data);
@@ -135,7 +130,7 @@ const Form = () => {
 
         </InputBox>
         {input.nickname.length <= 0 ? null : nicknameError ? <StSmallWorning>아이디 형식을 확인하세요</StSmallWorning> :
-          <div style={{ marginLeft: "35%", fontSize: "13px", color: "blue", fontWeight: "600" }}>올바른 아이디형식입니다!</div>}
+          <div style={{ marginLeft: "45%", fontSize: "13px", color: "blue", fontWeight: "600" }}>올바른 아이디형식입니다!</div>}
 
         {/* {nicknameError ? <StSmallWorning>아이디 형식을 확인하세요</StSmallWorning> :
           <div style={{ marginLeft: "35%", fontSize: "13px", color: "blue", fontWeight: "600" }}>올바른 아이디형식입니다.</div>} */}
@@ -153,7 +148,7 @@ const Form = () => {
             value={input.password} />
         </InputBox>
         {input.password.length <= 0 ? null : passwordError ? <StSmallWorning>비밀번호 형식을 확인하세요</StSmallWorning> :
-          <div style={{ marginLeft: "35%", fontSize: "13px", color: "blue", fontWeight: "600" }}>안전한 비밀번호입니다!</div>}
+          <div style={{ marginLeft: "45%", fontSize: "13px", color: "blue", fontWeight: "600" }}>안전한 비밀번호입니다!</div>}
         <StsmallLabel style={{ marginBottom: "10px" }}>* 비밀번호는 영어, 숫자 포함 8자이상 20자이하로 입력해주세요. * </StsmallLabel>
 
         <InputBox style={{ marginTop: "20px" }}>
@@ -169,8 +164,9 @@ const Form = () => {
         {passwordConfirmError &&
           <StSmallWorning className="invalid-input">비밀번호가 일치하지 않습니다.</StSmallWorning>}
         <StsmallLabel style={{ marginBottom: "10px" }}>* 비밀번호를 위에와 동일하게 입력해주세요. *</StsmallLabel>
-        <JoinBtn onClick={() => { addHandler(); console.log("input is", input); }}>회원가입 완료</JoinBtn>
       </form>
+      <JoinBtn onClick={() => { addHandler(); console.log("input is", input) }}>회원가입 완료</JoinBtn>
+
     </StRegisterBox>
   );
 }
@@ -241,7 +237,7 @@ const StsmallLabel = styled.label`
 const JoinBtn = styled.button`
   width: 120px;
   height: 30px;
-  margin-left: 35%;
+  margin-left: 40%;
   margin-top: 5%;
   font-size: 15px;
   background-color: #ff6f0f;
@@ -259,5 +255,5 @@ const StSmallWorning = styled.label`
   font-size: 12px;
   color: red;
   font-weight: 600;
-  margin-left:35% ;
+  margin-left:45% ;
 `;
