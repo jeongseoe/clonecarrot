@@ -1,9 +1,8 @@
-import React from 'react';
-import { colors } from "../../lib/constants/colors"
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import camera from "./camera.svg"
 import { useEffect } from 'react';
+import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
+import { colors } from "../../lib/constants/colors"
+import camera from "./camera.svg"
 
 
 const PostComponent = () => {
@@ -192,7 +191,7 @@ const StTextarea = styled.textarea`
   border: 0px;
   padding-top: 20px;
   padding-left: 10px;
-  row
+  
   
 
   ::placeholder{
