@@ -13,15 +13,15 @@ const Card = ({title, tag, price, location, content}) => {
       </ImgPostWrap>
 
       <SaleBadge>판매완료</SaleBadge>
-      <StTitle>{title}</StTitle>
-      <div>
+      <ContentWrap>
+          <StTitle>{title}</StTitle>
           <StPrice>{price}</StPrice>
-          <span>{location}</span>
+          <StLocation>{location}</StLocation>
         <StStatus>
           <span>좋아요 999</span>
-          <button>채팅</button>
+          <StBtn>채팅하기</StBtn>
         </StStatus>
-      </div>
+      </ContentWrap>
           
       
       
@@ -76,7 +76,13 @@ const SaleBadge = styled.div`
   justify-content: center;
 `
 
+const ContentWrap = styled.div`
+  margin-left: 5px;
+  color: ${colors.black};
+`
+
 const StTitle = styled.h2`
+  margin-bottom: -5px;
   font-weight: 300;
 `
 
@@ -84,10 +90,28 @@ const StPrice = styled.h3`
   margin-bottom: 10px;
 `
 
+const StLocation = styled.div`
+  margin-bottom: 10px;
+`
+
 const StStatus = styled.div`
+  font-size: 0.9rem;
   color: ${colors.lightgray};
-  margin-right: 30px;
   display: flex;
   justify-content: space-between;
 
+`
+
+const StBtn = styled.button`
+  height: 100%;
+  margin-right: 5px;
+  padding: 5px 15px;
+  border: none;
+  border-radius: 2rem;
+  background-color: ${colors.orange};
+  
+  color: ${colors.white};
+  font-weight: bold;
+  
+  cursor: pointer;
 `

@@ -48,14 +48,14 @@ export default  ListComponent;
 const PostLayout = styled.div`
   width: 90%;
   margin: 0px auto;
-  background-color: gray;
+  /* background-color: gray; */
 
   display: grid;
   /* align-items: center; */
   justify-content: center;
   grid-template-columns: repeat(4, 1fr);
   grid-column-gap: 20px;
-  grid-row-gap: 30px;
+  grid-row-gap: 8%;
   
   @media screen and (max-width: 900px){
     /* width: 80%; */
@@ -64,7 +64,7 @@ const PostLayout = styled.div`
   }
   @media screen and (max-width: 600px){
     grid-template-columns: repeat(1, 1fr);
-    grid-row-gap: 5px;
+    grid-row-gap: 50px;
   } 
 `
 

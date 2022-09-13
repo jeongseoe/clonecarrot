@@ -1,27 +1,85 @@
 import { useEffect } from 'react';
+import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import { colors } from "../../lib/constants/colors"
 import camera from "./camera.svg"
+import { useState } from 'react';
 
 
 const PostComponent = () => {
   const navigate = useNavigate();
+  const id = 0 //for json-server
+
+  // 초기값
+  const initialState = {
+    id: id+1,
+    title: "",
+    tag: "",
+    price: "",
+    content: "",
+    location: ""
+  }
+
+  const [ post, setPost ] = useState(initialState);
 
   
-  const imgUploadHandler = () =>{
-    window.alert('기능구현 중!')
+  // Event Handler
+  const imgUploadHandler = () => {
+    // window.alert('기능구현 중!')
   }
+
+  const onChangeHandler = (event) => {
+    const { name, value } = event.target;
+    console.log(post)
+    setPost({...post, [name]: value});
+  }
+
+  // axios
+  const postHandler = async (event) => {
+    
+    event.preventDefault();
+    if ( post.title.trim() === "" || post.tag.trim() === "" || post.price.trim() === "" || post.content.trim() === ""){
+      return alert("모든 칸을 채워주세요🥕")
+    };
+
+    try{
+      
+      const response = await axios.post("http://localhost:3001/carrotposts",
+      // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
+      {...post}); 
+      console.log("👏 Axios Work >>> ", response)
+      setPost(initialState)
+
+      if (response.status === 200 || 201) {
+        window.alert("매물이 등록되었습니다🥕")
+        console.log("newPosting: ",response.data)
+        navigate('/list') //go list
+      } else {
+        console.log("Not Ok")
+        console.error(response)
+      }
+
+    } catch (error) {
+      window.alert("🥒ERROR🥒")
+      console.error(error);
+      setPost(initialState) 
+    }
+  };
+
+
 
   useEffect(() => {
     
   },[]);
   
+  //제일 상위 div  -> form 으로 
+  //location data는 어떻게 어디로 주는지?
   return(
-    <div>
+    <div key={post.id}> 
       <StH2>중고거래 글쓰기</StH2>
       <StHr/>
-      <ComponentWrap>
+      <ComponentWrap onSubmit={postHandler}>
         <ImgPostWrap>
           <ImgContainer>
             <Camera src={camera} alt="camera"/>
@@ -36,22 +94,48 @@ const PostComponent = () => {
         <StHr/>
 
         
-          <DescWrap>
-            <StInput maxLength="20" placeholder="글 제목"/>
-            <StSelect name='categories' required>
-              <StOption value="" disabled selected>카테고리 선택</StOption>
+          <DescWrap >
+            <StInput 
+              name="title"
+              type="text"
+              value={post.title}
+              onChange={onChangeHandler}
+              placeholder="글 제목"
+              maxLength="20" 
+            />
+            <StSelect 
+              name='tag' 
+              type="text"
+              defaultValue="default"
+              onChange={onChangeHandler}
+              required
+            >
+              <StOption value="default" disabled >카테고리 선택</StOption>
               <option value="device">디지털기기</option>
               <option value="furniture">가구/인테리어</option>
               <option value="cloth">의류</option>
               <option value="books">도서</option>
               <option value="others">기타 중고물품</option>
             </StSelect>
-            <StInput maxLength="20" placeholder='₩ 가격'/>
-            <StTextarea maxLength="500" placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.'/>
+            <StInput 
+              name="price" 
+              type="number"
+              value={post.price}
+              onChange={onChangeHandler}
+              placeholder='₩ 가격'
+              min="0"
+              />
+            <StTextarea 
+            name="content" 
+            type="text"
+            value={post.content}
+            onChange={onChangeHandler}
+            maxLength="500" 
+            placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.'/>
           </DescWrap>
           
           <StHr/>
-          <StBtn onClick={() => navigate('/list')}>내 매물 게시</StBtn>
+          <StBtn type="submit">내 매물 올리기</StBtn>
       </ComponentWrap>
     </div>
   )
@@ -59,7 +143,7 @@ const PostComponent = () => {
 
 export default PostComponent;
 
-const ComponentWrap = styled.div`
+const ComponentWrap = styled.form`
   width: 40vw;
   margin: 0px auto;
   
@@ -163,6 +247,9 @@ const StInput = styled.input`
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+  ::-webkit-inner-spin-button, ::-webkit-outer-spin-button{
+    -webkit-appearance: none;
+  }
   ::placeholder{
     color: ${colors.gray}
   }
