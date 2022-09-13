@@ -35,9 +35,9 @@ const Login = () => {
       const data = await axios.post("http://3.36.71.186:8080/api/member/login", inputValue);
       localStorage.setItem("Authorization", data.headers.authorization)    //accesstoken
       localStorage.setItem("RefreshToken", data.headers.refreshtoken)   //refreshtoken 
-      localStorage.setItem("username", data.data.data.username)
+      localStorage.setItem("nickname", data.data.data.nicname)
       console.log(data);
-      navigate('/main');
+      navigate('/list');
       // if(data.data.success===false)
       //     alert("data.data.error.message");
       // alert("아이디와 비밀번호를 다시 확인해주세요.");

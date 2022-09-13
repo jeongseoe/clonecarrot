@@ -61,7 +61,7 @@ const kakaoLogin = (code) => {
   return function (history) {
     axios({
       method: "GET",
-      url: `http://{3.36.71.186:8080/oauth/callback/kakao}?code=${code}`,
+      url: `http://3.36.71.186:8080/oauth/callback/kakao?code=${code}`,
     })
       .then((res) => {
         console.log(res); // 토큰이 넘어올 것임
@@ -76,7 +76,7 @@ const kakaoLogin = (code) => {
       .catch((err) => {
         console.log("소셜로그인 에러", err);
         window.alert("로그인에 실패하였습니다.");
-        history.replace("/login"); // 로그인 실패하면 로그인화면으로 돌려보냄
+        history.replace("/"); // 로그인 실패하면 로그인화면으로 돌려보냄
       })
   }
 };

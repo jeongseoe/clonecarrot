@@ -9,9 +9,8 @@ const Oauth2Handler = (props) => {
     // 인가코드
     let code = new URL(window.location.href).searchParams.get("code");
 
-    React.useEffect(() => {
-        console.log(code)
-        dispatch(userActions.kakaoLogin(code));
+    React.useEffect(async () => {
+        await dispatch(userActions.kakaoLogin(code));
     }, []);
 
     return null;
