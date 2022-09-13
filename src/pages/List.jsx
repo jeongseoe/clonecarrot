@@ -6,11 +6,13 @@ import Header from "../components/Header/Header";
 
 const List = () => {
     return (
+        <>
+        <Header/>
         <ComponentWrap>
-            리스트 목록 페이지입니다
-            <Header/>
             <ListComponent/>
         </ComponentWrap>
+        </>
+        
     );
 };
 
@@ -20,5 +22,5 @@ const ComponentWrap = styled.div`
   /* width: 100%; */
   /* margin: 50px auto; */
   
-  background-color: green;
+  /* background-color: green; */
   `

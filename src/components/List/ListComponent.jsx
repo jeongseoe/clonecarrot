@@ -21,11 +21,67 @@ const ListComponent = () => {
   }, []);
 
   return (
-    <div>
-      리스트 컴포넌트
-      <Card/>
-    </div>
+    <>
+      <StH1>우리동네 인기매물</StH1>
+      <PostLayout>
+        {/* <StHr/> */}
+        {post.map((item, index) => {
+          return(
+            <Card
+              onClick={() => navigator(``)}
+              // key={item.userId}
+              title={item.title}
+              tag={item.tag}
+              price={item.price}
+              location={item.location}
+              conetent={item.conetent}
+            />
+          )
+        })}
+      </PostLayout>
+    </>
   )
 }
 
 export default  ListComponent;
+
+const PostLayout = styled.div`
+  width: 90%;
+  margin: 0px auto;
+  background-color: gray;
+
+  display: grid;
+  /* align-items: center; */
+  justify-content: center;
+  grid-template-columns: repeat(4, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 30px;
+  
+  @media screen and (max-width: 900px){
+    /* width: 80%; */
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 40px;
+  }
+  @media screen and (max-width: 600px){
+    grid-template-columns: repeat(1, 1fr);
+    grid-row-gap: 5px;
+  } 
+`
+
+const StH1 = styled.h1`
+  /* margin-top: 50px; */
+  /* margin-bottom: -30px; */
+  margin-bottom: 80px;
+  color: ${colors.black};
+  display: flex;
+  align-items: center;
+  justify-content: center; 
+`
+
+const StHr = styled.hr`
+  margin-top: 50px;
+  margin-bottom: 0px;
+
+  border: 0px;
+  border-top: 1px solid ${colors.lightgray};
+`
