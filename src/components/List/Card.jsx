@@ -2,14 +2,13 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../lib/constants/colors';
 
-const Card = ({title, tag, price, location, content}) => {
+const Card = ({postImgUrl, title, price, location, likeCount}) => {
 
   return (
     <CardArea>
       <ImgPostWrap>
         <ImgContatiner>
-          
-          {/* <img/> */}
+          <ImgContent src={postImgUrl} alt="postImg"/>
         </ImgContatiner>
       </ImgPostWrap>
 
@@ -19,13 +18,10 @@ const Card = ({title, tag, price, location, content}) => {
           <StPrice>{price}원</StPrice>
           <StLocation>{location}</StLocation>
         <StStatus>
-          <span>좋아요 999</span>
+          <span>좋아요 {likeCount}</span>
           <StBtn>채팅하기</StBtn>
         </StStatus>
       </ContentWrap>
-          
-      
-      
     </CardArea>
   )
 }
@@ -44,6 +40,8 @@ const CardArea = styled.div`
 const ImgPostWrap =styled.div`
   width: 100%;
   position: relative;
+  overflow: hidden;
+  box-sizing: border-box;
   :after{
     content: "";
     display: block;
@@ -54,14 +52,27 @@ const ImgPostWrap =styled.div`
 
 const ImgContatiner = styled.div`
   position: absolute;
+  overflow: hidden;
   width: 100%;
   height: 100%;
-
+  box-sizing: border-box;
   border: 1px solid ${colors.lightgray};
   border-radius: 1.5rem;
   background-color: ${colors.white};
 
 `
+const ImgContent = styled.img`
+  
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
+  
+`
+
 
 const SaleBadge = styled.div`
   width: fit-content;
@@ -105,6 +116,7 @@ const StStatus = styled.div`
 
 const StBtn = styled.button`
   height: 100%;
+  margin-top: -10px;
   margin-right: 5px;
   padding: 5px 15px;
   border: none;

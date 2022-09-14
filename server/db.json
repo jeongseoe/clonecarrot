@@ -1,0 +1,53 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  },
+  "carrotposts": [
+    {
+      "id": 1,
+      "title": "Hello",
+      "tag": "furniture",
+      "price": "200000",
+      "content": "테스트입니다.",
+      "location": "테스트"
+    },
+    {
+      "id": 2,
+      "title": "asdfasdf",
+      "tag": "furniture",
+      "price": "121245252323",
+      "content": "asdfasdfagva",
+      "location": "테스트"
+    },
+    {
+      "id": 3,
+      "title": "이렇게 한번 테스트를 해보려구요.",
+      "tag": "books",
+      "price": "2000000",
+      "content": "아주 비싸게 팔고 싶습니다.",
+      "location": "test_Location"
+    },
+    {
+      "id": 4,
+      "title": "먹다 남은 볶음밥 팝니다!",
+      "tag": "others",
+      "price": "300000",
+      "content": "아직도 따뜻합니다!",
+      "location": "test_Location"
+    }
+  ]
+}
