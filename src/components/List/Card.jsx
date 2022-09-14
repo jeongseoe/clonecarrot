@@ -8,6 +8,7 @@ const Card = ({title, tag, price, location, content}) => {
     <CardArea>
       <ImgPostWrap>
         <ImgContatiner>
+          
           {/* <img/> */}
         </ImgContatiner>
       </ImgPostWrap>
@@ -15,7 +16,7 @@ const Card = ({title, tag, price, location, content}) => {
       <SaleBadge>판매완료</SaleBadge>
       <ContentWrap>
           <StTitle>{title}</StTitle>
-          <StPrice>{price}</StPrice>
+          <StPrice>{price}원</StPrice>
           <StLocation>{location}</StLocation>
         <StStatus>
           <span>좋아요 999</span>
@@ -83,7 +84,7 @@ const ContentWrap = styled.div`
 
 const StTitle = styled.h2`
   margin-bottom: -5px;
-  font-weight: 300;
+  font-weight: 400;
 `
 
 const StPrice = styled.h3`
