@@ -27,7 +27,7 @@ const Router = () => {
                 <Route path="lovelist" exact element={<LoveList />} />
                 <Route path='detail/:id' exact element={<Detail />} />
                 <Route path='*' element={<div>404 Not Found</div>} />
-                <Route path="/oauth/callback/kakao" component={Oauth2Handler}></Route>
+                <Route path="kakao" exact element={<Oauth2Handler />} />
             </Routes>
         </BrowserRouter>
     );
