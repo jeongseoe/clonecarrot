@@ -1,57 +1,111 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import header from "../Form/half.png";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { KAKAO_AUTH_URL } from "./Auth";
+
 
 const Login = () => {
-    const navigate = useNavigate();
-    return (
-        <>
-            <form>
-                <StLoginContainer>
-                    <StImg src={header} alt="loge" />
-                    <StUserBox>
-                        <StLaber style={{ marginRight: "18px" }}>아이디</StLaber>
-                        <StLoginInput
-                            type="text"
-                            name="username"
-                            placeholder="아이디를 입력해주세요"
-                        />
-                    </StUserBox>
+  const navigate = useNavigate();
 
-                    <StPwBox>
-                        <StLaber style={{ marginRight: "5px" }}>비밀번호</StLaber>
-                        <StLoginInput
-                            type="password"
-                            name="username"
-                            placeholder="비밀번호를 입력해주세요" />
 
-                    </StPwBox>
-                    <StBtnBox>
-                        {/* 로그인 기능구현하기 */}
-                        <StBtn  >로그인</StBtn>
-                    </StBtnBox>
+  const initialState = {
+    nickname: "",
+    password: ""
+  }
 
-                    <StBtnBox>
-                        <StBtn onClick={() => navigate('/signup')}>회원가입</StBtn>
-                    </StBtnBox>
+  const [inputValue, setInputValue] = useState(initialState);
 
-                    <StBtnBox>
-                        {/* 카카오톡연동하기 */}
-                        <StBtnKaka>카카오톡으로 로그인하기</StBtnKaka>
-                    </StBtnBox>
 
-                </StLoginContainer>
-            </form>
-        </>
-    )
+  const onChangeHandler = (e) => {
+    const { name, value } = e.target;
+    setInputValue({ ...inputValue, [name]: value })
+  };
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    //빈값 체크
+    if (inputValue.nickname === "" || inputValue.password === "") {
+      window.alert("아이디와 비밀번호를 입력해주세요.");
+    }
+
+    try {
+      // console.log(payload);
+      const data = await axios.post("http://3.36.71.186:8080/api/member/login", inputValue);
+      localStorage.setItem("Authorization", data.headers.authorization)    //accesstoken
+      localStorage.setItem("RefreshToken", data.headers.refreshtoken)   //refreshtoken 
+      localStorage.setItem("nickname", data.data.data.nicname)
+      console.log(data);
+      navigate('/list');
+      if (data.data.success === false) {
+        alert("data.data.error.message");
+        alert("아이디와 비밀번호를 다시 확인해주세요.");
+      }
+      else alert("로그인 성공");
+      // return thunkAPI.fulfillWithValue(data.data);
+    } catch (error) {
+      alert("아이디와 비밀번호를 다시 확인해주세요.");
+      // return thunkAPI.rejectWithValue(error);
+    }
+
+    console.log(inputValue);
+
+  };
+
+
+  return (
+    <>
+
+      <StLoginContainer>
+        <form onSubmit={onSubmitHandler}>
+          <StImg src={header} alt="loge" />
+          <StUserBox>
+            <StLaber style={{ marginRight: "18px" }}>아이디</StLaber>
+            <StLoginInput
+              type="text"
+              name="nickname"
+              placeholder="아이디를 입력해주세요"
+              onChange={onChangeHandler}
+              value={inputValue.nickname}
+            />
+          </StUserBox>
+
+          <StPwBox>
+            <StLaber style={{ marginRight: "5px" }}>비밀번호</StLaber>
+            <StLoginInput
+              type="password"
+              name="password"
+              placeholder="비밀번호를 입력해주세요"
+              onChange={onChangeHandler}
+              value={inputValue.password}
+            />
+
+          </StPwBox>
+          <StBtnBox>
+            <StBtn type="submit">로그인</StBtn>
+          </StBtnBox>
+        </form>
+        <StBtnBox>
+          <StBtn onClick={() => navigate('/signup')}>회원가입</StBtn>
+        </StBtnBox>
+
+        <StBtnBox>
+          <StBtnKaka onClick={() => { window.location.href = KAKAO_AUTH_URL }} >카카오톡으로 로그인하기</StBtnKaka>
+
+        </StBtnBox>
+
+      </StLoginContainer>
+
+    </>
+  )
 
 };
 
 export default Login;
 
 
-
+//이미지 당근이세요
 const StImg = styled.img`
   width: 30vw;
   border-radius: 15px;
@@ -65,7 +119,7 @@ const StLoginContainer = styled.div`
   width: 30vw;
   height: auto;
   padding-bottom: 1%;
-  border-radius: 15px;
+  border-radius: 20px;
   border: 3px solid #ff6f0f;
   /* background-color: red; */
 `;
@@ -78,7 +132,7 @@ const StLaber = styled.label`
 `;
 
 
-//로그인박스 안에 username 입력박스
+//로그인박스 안에 nickname 입력박스
 const StUserBox = styled.div`
   display: flex;
   justify-content:center;
@@ -118,6 +172,7 @@ const StBtn = styled.button`
   border-radius: 5px;
   padding: 1%;
   font-weight: bold;
+
   :hover{
     border: none;
     background-color: #ff6f0f;

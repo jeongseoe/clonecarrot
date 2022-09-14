@@ -1,10 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
-import otherSlice from "../modules/otherSlice";
+import userSlice from '../modules/userSlice';
+import signupSlice from '../modules/signUp';
+// import commentSlice from "../modules/Comment"
+// import postSlice from "../modules/addPost"
+// import detailSlice from "../modules/detail";
 
 const store = configureStore({
-  reducer: {
-    otherSlice,
-  },
+
+    reducer: {
+        user: userSlice,
+        signup: signupSlice.reducer,
+        // comment: commentSlice.reducer,
+        // post: postSlice.reducer,
+        // detail: detailSlice.reducer
+    }
+
 });
 
 export default store;

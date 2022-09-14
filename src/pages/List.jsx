@@ -3,7 +3,6 @@ import styled from "styled-components";
 import ListComponent from "../components/List/ListComponent";
 import Header from "../components/Header/Header";
 
-
 const List = () => {
     return (
         <>
@@ -12,7 +11,6 @@ const List = () => {
             <ListComponent/>
         </ComponentWrap>
         </>
-        
     );
 };
 

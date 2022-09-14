@@ -16,12 +16,16 @@ const Header = () => {
 
 
 
+
+
     return (
         <>
             <StContainer>
                 <StImg src={logo} alt=" carrot_1" />
                 <StBtnContainer>
                     {/* 로그인누르면 로그인화면, 로그아웃누르면 쿠키제거하기 */}
+                    { }
+
                     <StButton >
                         로그인
                     </StButton>
@@ -64,4 +68,5 @@ const StButton = styled.button`
   color: #ff6f0f;
   background-color: white;
   font-weight: 900;
+
 `;
