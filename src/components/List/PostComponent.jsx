@@ -15,7 +15,7 @@ const PostComponent = () => {
 
   // 초기값
   const initialState = {
-    id: id.lenght+1,
+    id: id.lenght + 1,
     title: "",
     tag: "",
     price: "",
@@ -23,16 +23,16 @@ const PostComponent = () => {
     location: "test_Location"
   }
 
-  const [ post, setPost ] = useState(initialState);
-  const [ num, setNum ] = useState(0);
+  const [post, setPost] = useState(initialState);
+  const [num, setNum] = useState(0);
 
-  
+
   // Event Handler
-  
+
   // Img Upload hadler
-  const useImg = () =>{
+  const useImg = () => {
     const inputRef = useRef(null);
-    const onUploadImg = useCallback((e)=>{
+    const onUploadImg = useCallback((e) => {
       if (!e.target.files) {
         return;
       }
@@ -47,26 +47,27 @@ const PostComponent = () => {
     }, []);
 
     return (
-      
+      <div></div>
+
     );
   };
 
-  
+
 
   // const fileInputHandler = (e) => {
   //   const img = e.target.files[0];
   //   const formData = new FormData();
   //   formData.append('file', img);
   //   for (const keyValue of formData) console.log(keyValue);
-    
+
   // };
 
-  
+
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log(post)
-    setPost({...post, [name]: value});
+    setPost({ ...post, [name]: value });
   }
 
   // const inputPriceFormat = (str) => {
@@ -77,23 +78,23 @@ const PostComponent = () => {
 
   // axios
   const postHandler = async (event) => {
-    
+
     event.preventDefault();
-    if ( post.title.trim() === "" || post.tag.trim() === "" || post.price.trim() === "" || post.content.trim() === ""){
+    if (post.title.trim() === "" || post.tag.trim() === "" || post.price.trim() === "" || post.content.trim() === "") {
       return alert("모든 칸을 채워주세요🥕")
     };
 
-    try{
-      
+    try {
+
       const response = await axios.post("http://localhost:3001/carrotposts",
-      // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
-      {...post}); 
+        // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
+        { ...post });
       console.log("👏 Axios Work >>> ", response)
       setPost(initialState)
 
       if (response.status === 200 || 201) {
         window.alert("매물이 등록되었습니다🥕")
-        console.log("newPosting: ",response.data)
+        console.log("newPosting: ", response.data)
         navigate('/list') //go list
       } else {
         console.log("Not Ok")
@@ -103,74 +104,74 @@ const PostComponent = () => {
     } catch (error) {
       window.alert("🥒ERROR🥒")
       console.error(error);
-      setPost(initialState) 
+      setPost(initialState)
     }
   };
 
 
 
   useEffect(() => {
-    
-  },[]);
-  
+
+  }, []);
+
   //제일 상위 div  -> form 으로 
   //location data는 어떻게 어디로 주는지?
-  return(
-    <div key={post.id}> 
+  return (
+    <div key={post.id}>
       <StH2>중고거래 글쓰기</StH2>
-      <StHr/>
+      <StHr />
       <ComponentWrap>
         <ImgPostWrap>
           <ImgContainer>
-          <input 
-          name='saleContentsImg'
-          type="file"
-          accept='image/jpg, image/png, image/jpeg, image/gif'
-          ref={inputRef}
-          onChange={onUploadImg}
-          />
+            <input
+              name='saleContentsImg'
+              type="file"
+              accept='image/jpg, image/png, image/jpeg, image/gif'
+            // ref={inputRef}
+            // onChange={onUploadImg}
+            />
             {/* <Camera src={camera} alt="camera"/> */}
 
             {/* <img src={} alt="post image"/> */}
           </ImgContainer>
-          
-          
+
+
         </ImgPostWrap>
-        <StBtn  
+        <StBtn
           type="file"
           accept='image/jpg, image/png, image/jpeg, image/gif'
           name='saleContentsImg'
-          onClick={fileInputHandler}
+          // onClick={fileInputHandler}
           required
         >이미지 업로드</StBtn>
-        
-        <StHr/>
 
-        
-          <DescWrap onSubmit={postHandler}>
-            <StInput 
-              name="title"
-              type="text"
-              value={post.title}
-              onChange={onChangeHandler}
-              placeholder="글 제목"
-              maxLength="20" 
-            />
-            <StSelect 
-              name='tag' 
-              type="text"
-              defaultValue="default"
-              onChange={onChangeHandler}
-              required
-            >
-              <StOption value="default" disabled >카테고리 선택</StOption>
-              <option value="device">디지털기기</option>
-              <option value="furniture">가구/인테리어</option>
-              <option value="cloth">의류</option>
-              <option value="books">도서</option>
-              <option value="others">기타 중고물품</option>
-            </StSelect>
-            {/* <StInput 
+        <StHr />
+
+
+        <DescWrap onSubmit={postHandler}>
+          <StInput
+            name="title"
+            type="text"
+            value={post.title}
+            onChange={onChangeHandler}
+            placeholder="글 제목"
+            maxLength="20"
+          />
+          <StSelect
+            name='tag'
+            type="text"
+            defaultValue="default"
+            onChange={onChangeHandler}
+            required
+          >
+            <StOption value="default" disabled >카테고리 선택</StOption>
+            <option value="device">디지털기기</option>
+            <option value="furniture">가구/인테리어</option>
+            <option value="cloth">의류</option>
+            <option value="books">도서</option>
+            <option value="others">기타 중고물품</option>
+          </StSelect>
+          {/* <StInput 
               name="price" 
               type="text"
               value={num}
@@ -178,25 +179,25 @@ const PostComponent = () => {
               placeholder='₩ 가격'
               min="0"
               /> */}
-            <StInput 
-              name="price" 
-              type="number"
-              value={post.price}
-              onChange={onChangeHandler}
-              placeholder='₩ 가격'
-              min="0"
-              />
-            <StTextarea 
-            name="content" 
+          <StInput
+            name="price"
+            type="number"
+            value={post.price}
+            onChange={onChangeHandler}
+            placeholder='₩ 가격'
+            min="0"
+          />
+          <StTextarea
+            name="content"
             type="text"
             value={post.content}
             onChange={onChangeHandler}
-            maxLength="500" 
-            placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.'/>
-          </DescWrap>
-          
-          <StHr/>
-          <StBtn type="submit">내 매물 올리기</StBtn>
+            maxLength="500"
+            placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.' />
+        </DescWrap>
+
+        <StHr />
+        <StBtn type="submit">내 매물 올리기</StBtn>
       </ComponentWrap>
     </div>
   )
