@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useCallback, useRef } from 'react';
 import axios from 'axios';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
@@ -7,33 +7,73 @@ import camera from "./camera.svg"
 import { useState } from 'react';
 
 
+
 const PostComponent = () => {
   const navigate = useNavigate();
-  const id = 0 //for json-server
+  // const id = 0 //for json-server
+  const id = axios.get("http://localhost:3001/carrotposts")
 
   // 초기값
   const initialState = {
-    id: id+1,
+    id: id.lenght+1,
     title: "",
     tag: "",
     price: "",
     content: "",
-    location: ""
+    location: "test_Location"
   }
 
   const [ post, setPost ] = useState(initialState);
+  const [ num, setNum ] = useState(0);
 
   
   // Event Handler
-  const imgUploadHandler = () => {
-    // window.alert('기능구현 중!')
-  }
+  
+  // Img Upload hadler
+  const useImg = () =>{
+    const inputRef = useRef(null);
+    const onUploadImg = useCallback((e)=>{
+      if (!e.target.files) {
+        return;
+      }
+      console.log(e.target.files[0].name);
+    }, []);
+
+    const fileInputBtnClick = useCallback(() => {
+      if (!inputRef.current) {
+        return;
+      }
+      inputRef.current.click();
+    }, []);
+
+    return (
+      
+    );
+  };
+
+  
+
+  // const fileInputHandler = (e) => {
+  //   const img = e.target.files[0];
+  //   const formData = new FormData();
+  //   formData.append('file', img);
+  //   for (const keyValue of formData) console.log(keyValue);
+    
+  // };
+
+  
 
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log(post)
     setPost({...post, [name]: value});
   }
+
+  // const inputPriceFormat = (str) => {
+  //   const comma = (str) => {
+  //     str = String(str);
+  //   }
+  // }
 
   // axios
   const postHandler = async (event) => {
@@ -79,22 +119,35 @@ const PostComponent = () => {
     <div key={post.id}> 
       <StH2>중고거래 글쓰기</StH2>
       <StHr/>
-      <ComponentWrap onSubmit={postHandler}>
+      <ComponentWrap>
         <ImgPostWrap>
           <ImgContainer>
-            <Camera src={camera} alt="camera"/>
+          <input 
+          name='saleContentsImg'
+          type="file"
+          accept='image/jpg, image/png, image/jpeg, image/gif'
+          ref={inputRef}
+          onChange={onUploadImg}
+          />
+            {/* <Camera src={camera} alt="camera"/> */}
 
             {/* <img src={} alt="post image"/> */}
           </ImgContainer>
           
           
         </ImgPostWrap>
-        <StBtn onClick={imgUploadHandler()}>이미지 업로드</StBtn>
+        <StBtn  
+          type="file"
+          accept='image/jpg, image/png, image/jpeg, image/gif'
+          name='saleContentsImg'
+          onClick={fileInputHandler}
+          required
+        >이미지 업로드</StBtn>
         
         <StHr/>
 
         
-          <DescWrap >
+          <DescWrap onSubmit={postHandler}>
             <StInput 
               name="title"
               type="text"
@@ -117,6 +170,14 @@ const PostComponent = () => {
               <option value="books">도서</option>
               <option value="others">기타 중고물품</option>
             </StSelect>
+            {/* <StInput 
+              name="price" 
+              type="text"
+              value={num}
+              onChange={(e)=> setNum(inputPriceFormat(e.target.value))}
+              placeholder='₩ 가격'
+              min="0"
+              /> */}
             <StInput 
               name="price" 
               type="number"
@@ -143,7 +204,7 @@ const PostComponent = () => {
 
 export default PostComponent;
 
-const ComponentWrap = styled.form`
+const ComponentWrap = styled.div`
   width: 40vw;
   margin: 0px auto;
   
@@ -225,7 +286,7 @@ const StHr = styled.hr`
   border-top: 1px solid ${colors.lightgray};
 `
 
-const DescWrap = styled.div`
+const DescWrap = styled.form`
   width: 98%;
   margin: 0px auto;
   display: flex;
