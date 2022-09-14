@@ -18,6 +18,7 @@ const Header = () => {
 
 
 
+
     return (
         <>
             <StContainer>
@@ -29,7 +30,6 @@ const Header = () => {
                     <StButton >
                         로그인
                     </StButton>
-
                     <StButton onClick={() => navigate('/signup')}>
                         회원가입
                     </StButton>
@@ -61,6 +61,7 @@ const StBtnContainer = styled.div`
   margin-top: 2% ;
 `;
 
+
 const StButton = styled.button`
   margin-right : 10px ;
   border: none;
@@ -68,5 +69,6 @@ const StButton = styled.button`
   color: #ff6f0f;
   background-color: white;
   font-weight: 900;
+
 
 `;
