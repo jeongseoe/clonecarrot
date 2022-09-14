@@ -10,10 +10,13 @@ const ListComponent = () => {
   const [ post, setPost ] = useState([]);
 
   const fetchPost = async () => {
-    const response = await axios.get("http://localhost:3001/carrotposts"); 
+    
+    // const response = await axios.get("http://localhost:3001/carrotposts"); 
+    const response = await axios.get("http://3.36.71.186:8080/api/post"); 
+    // console.log(response.data)
     console.log(response.data)
 
-    setPost( response.data );
+    setPost( response.data.data );
   }
 
   useEffect( () => {
@@ -25,16 +28,18 @@ const ListComponent = () => {
       <StH1>우리동네 인기매물</StH1>
       <PostLayout>
         {/* <StHr/> */}
-        {post.map((item, index) => {
+        {post&&post.map((item, index) => {
           return(
             <Card
-              onClick={() => navigator(``)}
-              // key={item.userId}
+              onClick={() => navigator(`/api/post:${item.postId}`)}
+              key={item.postId}
+              postImgUrl={item.postImgUrl}
               title={item.title}
               tag={item.tag}
               price={item.price}
               location={item.location}
               conetent={item.conetent}
+              likeCount={item.likeCount}
             />
           )
         })}

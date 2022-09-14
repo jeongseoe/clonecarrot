@@ -10,60 +10,53 @@ import { useState } from 'react';
 
 const PostComponent = () => {
   const navigate = useNavigate();
-  // const id = 0 //for json-server
-  const id = axios.get("http://localhost:3001/carrotposts")
+  const accessToken = localStorage.getItem("Authorization"); //accesstoken 
+  const refreshToken = localStorage.getItem("RefreshToken") //refreshToken
 
   // 초기값
   const initialState = {
-    id: id.lenght + 1,
     title: "",
     tag: "",
     price: "",
     content: "",
-    location: "test_Location"
+    location: ""
   }
 
-  const [post, setPost] = useState(initialState);
-  const [num, setNum] = useState(0);
-
+  const [ post, setPost ] = useState(initialState); // post input value
+  // const [ num, setNum ] = useState(0); // 숫자 콤마찍기 챌린지
+  const [salePostImg, setSalePostImg] = useState(null); // img input value
+  
 
   // Event Handler
-
   // Img Upload hadler
-  const useImg = () => {
-    const inputRef = useRef(null);
-    const onUploadImg = useCallback((e) => {
-      if (!e.target.files) {
-        return;
-      }
-      console.log(e.target.files[0].name);
-    }, []);
-
-    const fileInputBtnClick = useCallback(() => {
-      if (!inputRef.current) {
-        return;
-      }
-      inputRef.current.click();
-    }, []);
-
-    return (
-      <div></div>
-
-    );
-  };
+  const inputRef = useRef(null);
+  const onUploadImg = useCallback((e)=>{
+    if (!e.target.files) {
+      return;
+    }
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+    setSalePostImg(formData)
+    // console formData
+    console.log(e.target.files[0].name);//여기까진 옴
+    console.log("폼데이터", formData)
+    for (const keyValue of formData) console.log(keyValue); // ["image", file] file은 객체
+    console.log("세일즈포스트이미지:",salePostImg)
+  }, []);
 
 
 
-  // const fileInputHandler = (e) => {
-  //   const img = e.target.files[0];
-  //   const formData = new FormData();
-  //   formData.append('file', img);
-  //   for (const keyValue of formData) console.log(keyValue);
 
-  // };
+  // btn use ref
+  const fileInputBtnClick = useCallback(() => {
+    if (!inputRef.current) {
+      return;
+    }
+    inputRef.current.click();
+  }, []);
 
 
-
+  //
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log(post)
@@ -87,9 +80,18 @@ const PostComponent = () => {
     try {
 
       const response = await axios.post("http://localhost:3001/carrotposts",
-        // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
-        { ...post });
+      // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
+      {...post, salePostImg},
+      // {form-data: formData},
+      {
+        headers: {
+          // Authorization: `Bearer ${accessToken}`,
+          // RefreshToken: `Bearer ${refreshToken}`, 
+          'Content-Type': 'multipart/form-data',
+        },
+      }); 
       console.log("👏 Axios Work >>> ", response)
+      console.log("🖼 formData >>> ", salePostImg)
       setPost(initialState)
 
       if (response.status === 200 || 201) {
@@ -116,88 +118,81 @@ const PostComponent = () => {
 
   //제일 상위 div  -> form 으로 
   //location data는 어떻게 어디로 주는지?
-  return (
-    <div key={post.id}>
+  return(
+    <div> 
+    {/* <div key={post.id}>  */}
       <StH2>중고거래 글쓰기</StH2>
-      <StHr />
-      <ComponentWrap>
+      <StHr/>
+      <ComponentWrap >
         <ImgPostWrap>
-          <ImgContainer>
-            <input
-              name='saleContentsImg'
-              type="file"
-              accept='image/jpg, image/png, image/jpeg, image/gif'
-            // ref={inputRef}
-            // onChange={onUploadImg}
-            />
-            {/* <Camera src={camera} alt="camera"/> */}
-
-            {/* <img src={} alt="post image"/> */}
+          <ImgContainer onClick={fileInputBtnClick}>
+          <input 
+            name='saleContentsImg'
+            type="file"
+            accept='image/jpg, image/png, image/jpeg, image/gif'
+            style={{ display: "none" }}
+            ref={inputRef}
+            onChange={onUploadImg}
+          />
+            {salePostImg===null
+            ?<Camera src={camera} alt="camera"/>
+            :<StImg src={salePostImg} alt="postImg"/>}
           </ImgContainer>
-
-
         </ImgPostWrap>
-        <StBtn
-          type="file"
-          accept='image/jpg, image/png, image/jpeg, image/gif'
-          name='saleContentsImg'
-          // onClick={fileInputHandler}
-          required
-        >이미지 업로드</StBtn>
-
-        <StHr />
-
-
-        <DescWrap onSubmit={postHandler}>
-          <StInput
-            name="title"
-            type="text"
-            value={post.title}
-            onChange={onChangeHandler}
-            placeholder="글 제목"
-            maxLength="20"
-          />
-          <StSelect
-            name='tag'
-            type="text"
-            defaultValue="default"
-            onChange={onChangeHandler}
-            required
-          >
-            <StOption value="default" disabled >카테고리 선택</StOption>
-            <option value="device">디지털기기</option>
-            <option value="furniture">가구/인테리어</option>
-            <option value="cloth">의류</option>
-            <option value="books">도서</option>
-            <option value="others">기타 중고물품</option>
-          </StSelect>
-          {/* <StInput 
-              name="price" 
+        <StBtn onClick={fileInputBtnClick}>이미지 업로드</StBtn>
+        <StHr/>
+          <StForm onSubmit={postHandler}>
+            <DescWrap >
+              <StInput 
+                name="title"
+                type="text"
+                value={post.title}
+                onChange={onChangeHandler}
+                placeholder="글 제목"
+                maxLength="20" 
+              />
+              <StSelect 
+                name='tag' 
+                type="text"
+                defaultValue="default"
+                onChange={onChangeHandler}
+                required
+              >
+                <StOption value="default" disabled >카테고리 선택</StOption>
+                <option value="device">디지털기기</option>
+                <option value="furniture">가구/인테리어</option>
+                <option value="cloth">의류</option>
+                <option value="books">도서</option>
+                <option value="others">기타 중고물품</option>
+              </StSelect>
+              {/* <StInput 
+                name="price" 
+                type="text"
+                value={num}
+                onChange={(e)=> setNum(inputPriceFormat(e.target.value))}
+                placeholder='₩ 가격'
+                min="0"
+                /> */}
+              <StInput 
+                name="price" 
+                type="number"
+                value={post.price}
+                onChange={onChangeHandler}
+                placeholder='₩ 가격'
+                min="0"
+                />
+              <StTextarea 
+              name="content" 
               type="text"
-              value={num}
-              onChange={(e)=> setNum(inputPriceFormat(e.target.value))}
-              placeholder='₩ 가격'
-              min="0"
-              /> */}
-          <StInput
-            name="price"
-            type="number"
-            value={post.price}
-            onChange={onChangeHandler}
-            placeholder='₩ 가격'
-            min="0"
-          />
-          <StTextarea
-            name="content"
-            type="text"
-            value={post.content}
-            onChange={onChangeHandler}
-            maxLength="500"
-            placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.' />
-        </DescWrap>
-
-        <StHr />
-        <StBtn type="submit">내 매물 올리기</StBtn>
+              value={post.content}
+              onChange={onChangeHandler}
+              maxLength="500" 
+              placeholder='당근마켓에 올릴 게시글 내용을 작성해주세요.'/>
+            </DescWrap>
+            <StHr/>
+            <StBtn type="submit">내 매물 올리기</StBtn>
+          </StForm>
+          
       </ComponentWrap>
     </div>
   )
@@ -243,6 +238,8 @@ const ImgContainer = styled.div`
   border: 2px solid ${colors.lightgray};
   border-radius: 10px;
   background-color: ${colors.white};
+
+  cursor: pointer;
 `
 
 const Camera = styled.img`
@@ -253,6 +250,15 @@ const Camera = styled.img`
   display: flex;
   align-items: center;
   justify-content: center;
+`
+const StImg = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 10px;
 `
 
 const StBtn = styled.button`
@@ -287,7 +293,11 @@ const StHr = styled.hr`
   border-top: 1px solid ${colors.lightgray};
 `
 
-const DescWrap = styled.form`
+const StForm = styled.form`
+  
+`
+
+const DescWrap = styled.div`
   width: 98%;
   margin: 0px auto;
   display: flex;
