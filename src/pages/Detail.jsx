@@ -1,8 +1,12 @@
-import React from "react";
+import DetailComponent from "../components/Detail/DetailComponent";
+import Header from "../components/Header/Header";
 
 const Detail = () => {
     return (
-        <div>상세페이지입니다 </div>
+        <>
+        <Header/>
+        <DetailComponent/>
+        </>
     );
 };
 

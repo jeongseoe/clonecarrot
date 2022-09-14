@@ -1,9 +1,14 @@
-import React from "react";
+import PostComponent from "../components/List/PostComponent";
+import Header from "../components/Header/Header"
 
 const Post = () => {
     return (
-        <div>게시물 작성 페이지 입니다.</div>
+        <>
+        <Header/>
+        <PostComponent/> 
+        </>
     );
 };
 
 export default Post;
+
