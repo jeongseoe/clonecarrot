@@ -7,7 +7,7 @@ import camera from "./camera.svg"
 import { useState } from 'react';
 
 
-
+// test commit
 const PostComponent = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("Authorization"); //accesstoken 
