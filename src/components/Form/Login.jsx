@@ -11,7 +11,7 @@ const Login = () => {
 
 
   const initialState = {
-    username: "",
+    nickname: "",
     password: ""
   }
 
@@ -26,8 +26,8 @@ const Login = () => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
     //빈값 체크
-    if (inputValue.username === "" || inputValue.password === "") {
-      // window.alert("아이디와 비밀번호를 입력해주세요.");
+    if (inputValue.nickname === "" || inputValue.password === "") {
+      window.alert("아이디와 비밀번호를 입력해주세요.");
     }
 
     try {
@@ -38,13 +38,14 @@ const Login = () => {
       localStorage.setItem("nickname", data.data.data.nicname)
       console.log(data);
       navigate('/list');
-      // if(data.data.success===false)
-      //     alert("data.data.error.message");
-      // alert("아이디와 비밀번호를 다시 확인해주세요.");
-      // else alert("로그인 성공");
+      if (data.data.success === false) {
+        alert("data.data.error.message");
+        alert("아이디와 비밀번호를 다시 확인해주세요.");
+      }
+      else alert("로그인 성공");
       // return thunkAPI.fulfillWithValue(data.data);
     } catch (error) {
-      // alert("아이디와 비밀번호를 다시 확인해주세요.");
+      alert("아이디와 비밀번호를 다시 확인해주세요.");
       // return thunkAPI.rejectWithValue(error);
     }
 
@@ -63,10 +64,10 @@ const Login = () => {
             <StLaber style={{ marginRight: "18px" }}>아이디</StLaber>
             <StLoginInput
               type="text"
-              name="username"
+              name="nickname"
               placeholder="아이디를 입력해주세요"
               onChange={onChangeHandler}
-              value={inputValue.username}
+              value={inputValue.nickname}
             />
           </StUserBox>
 
@@ -131,7 +132,7 @@ const StLaber = styled.label`
 `;
 
 
-//로그인박스 안에 username 입력박스
+//로그인박스 안에 nickname 입력박스
 const StUserBox = styled.div`
   display: flex;
   justify-content:center;
