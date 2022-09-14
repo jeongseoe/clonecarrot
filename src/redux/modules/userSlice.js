@@ -6,8 +6,8 @@ export const __logout = createAsyncThunk(
   "data/getComments",
   async (payload, thunkAPI) => {
     try {
-      console.log(payload);
-      const data = await axios.post(`http://3.36.71.186:8080/api/auth/member/logout`,
+      console.log(localStorage.getItem);
+      const data = await axios.post(`http://3.36.71.186:8080/api/auth/member/logout`, null,
         {
           headers: {
             "Authorization": localStorage.getItem("Authorization"),   //accesstoken
@@ -15,6 +15,7 @@ export const __logout = createAsyncThunk(
           }
         });
     } catch (error) {
+      console.log('로그아웃 실패')
     }
   }
 );

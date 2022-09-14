@@ -44,7 +44,8 @@ const PostComponent = () => {
     console.log("세일즈포스트이미지:",salePostImg)
   }, []);
 
-  
+
+
 
   // btn use ref
   const fileInputBtnClick = useCallback(() => {
@@ -59,7 +60,7 @@ const PostComponent = () => {
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log(post)
-    setPost({...post, [name]: value});
+    setPost({ ...post, [name]: value });
   }
 
   // const inputPriceFormat = (str) => {
@@ -70,14 +71,14 @@ const PostComponent = () => {
 
   // axios
   const postHandler = async (event) => {
-    
+
     event.preventDefault();
-    if ( post.title.trim() === "" || post.tag.trim() === "" || post.price.trim() === "" || post.content.trim() === ""){
+    if (post.title.trim() === "" || post.tag.trim() === "" || post.price.trim() === "" || post.content.trim() === "") {
       return alert("모든 칸을 채워주세요🥕")
     };
 
-    try{
-      
+    try {
+
       const response = await axios.post("http://localhost:3001/carrotposts",
       // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
       {...post, salePostImg},
@@ -95,7 +96,7 @@ const PostComponent = () => {
 
       if (response.status === 200 || 201) {
         window.alert("매물이 등록되었습니다🥕")
-        console.log("newPosting: ",response.data)
+        console.log("newPosting: ", response.data)
         navigate('/list') //go list
       } else {
         console.log("Not Ok")
@@ -105,16 +106,16 @@ const PostComponent = () => {
     } catch (error) {
       window.alert("🥒ERROR🥒")
       console.error(error);
-      setPost(initialState) 
+      setPost(initialState)
     }
   };
 
 
 
   useEffect(() => {
-    
-  },[]);
-  
+
+  }, []);
+
   //제일 상위 div  -> form 으로 
   //location data는 어떻게 어디로 주는지?
   return(
