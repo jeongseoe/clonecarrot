@@ -12,8 +12,8 @@ const Header = () => {
     const onClickHandler = () => {
         dispatch(__logout());
         dispatch(logout());
-        window.alert("로그인 페이지로 이동합니다");
-        navigate('/');
+        window.alert("로그아웃 되었습니다");
+        navigate('/list');
     };
 
     const token = localStorage.getItem('RefreshToken')
