@@ -10,9 +10,9 @@ import camera from "../List/camera.svg"
 // /api/post/{postId} 
 const DetailComponent = () => {
   const  param  = useParams();
-  const id = param.id - 1
+  const id = param.id 
   const navigate = useNavigate();
-  console.log("param", param)
+  // console.log("param", param)
   
   const accessToken = localStorage.getItem("Authorization"); //accesstoken 
   const refreshToken = localStorage.getItem("RefreshToken") //refreshToken
@@ -23,18 +23,20 @@ const DetailComponent = () => {
 
   const getDetail = async () => {
     // const response = await axios.get("http://localhost:4001/details"
-    const response = await axios.get(`http://15.164.169.141:8080/article/one?id=${id}`
+    const response = await axios.get(`http://3.36.71.186:8080/api/post/${id}`
+    
     ,{
     headers: {
       Authorization: `${accessToken}`,
-      RefreshToken: `${refreshToken}`, 
+      RefreshToken: `${refreshToken}`,
+      // withCredentials:true, 
     }  
     });
     
-    console.log("👏 Axios Work >>> ", response)
-    console.log("👏 Axios Work >>> ", response.data)
-    setDetail( response.data[id] ); // 서버로부터 get
-    console.log(detail)
+    // console.log("👏 Axios Work >>> ", response)
+    console.log("👏 Axios Work >>> ", response.data.data)
+    setDetail( response.data.data ); // 서버로부터 get
+    // console.log(detail)
   
   }
 

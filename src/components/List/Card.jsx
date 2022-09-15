@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../lib/constants/colors';
 
-const Card = ({postImgUrl, title, price, location, likeCount}) => {
+const Card = ({postImgUrl, title, price, location, likeCount, viewCount}) => {
   return (
     <CardArea>
       <ImgPostWrap>
@@ -13,11 +13,11 @@ const Card = ({postImgUrl, title, price, location, likeCount}) => {
       <SaleBadge>판매완료</SaleBadge>
       <ContentWrap>
           <StTitle>{title}</StTitle>
-          <StPrice>{price}원</StPrice>
+          <StPrice>{price} 원</StPrice>
           <StLocation>{location}</StLocation>
         <StStatus>
           <span>좋아요 {likeCount}</span>
-          <StBtn>채팅하기</StBtn>
+          <StBtn>{viewCount}</StBtn>
         </StStatus>
       </ContentWrap>
     </CardArea>

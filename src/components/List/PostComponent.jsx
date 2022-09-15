@@ -12,13 +12,28 @@ const PostComponent = () => {
   const accessToken = localStorage.getItem("Authorization"); //accesstoken 
   const refreshToken = localStorage.getItem("RefreshToken") //refreshToken
 
+
+  const gangwon = [
+    "철원군", "화천군", "양구군", "고성군", "춘천시",
+    "인제군", "속초시", "홍천군", "양양군", "횡성군", 
+    "평창군", "강릉시", "영월군", "정선군", "원주시",
+    "동해시", "삼척시", "태백시"
+  ];
+  
+  const randomLocation = (array) => {
+    const random = Math.floor(Math.random() * array.length);
+    return array[random];
+  }
+
+  const locations = randomLocation(gangwon);
+
   // 초기값
   const initialState = {
     title: "",
     tag: "",
     price: "",
     content: "",
-    location: "testLocations"
+    location: locations
   };
 
   const [ post, setPost ] = useState(initialState); // post input value
@@ -54,19 +69,12 @@ const PostComponent = () => {
     inputRef.current.click();
   }, []);
 
-
   //
   const onChangeHandler = (event) => {
     const { name, value } = event.target;
     console.log(post)
     setPost({ ...post, [name]: value });
   }
-
-  // const inputPriceFormat = (str) => {
-  //   const comma = (str) => {
-  //     str = String(str);
-  //   }
-  // }
 
   // axios
   const postHandler = async (event) => {
@@ -76,11 +84,23 @@ const PostComponent = () => {
       return alert("모든 칸을 채워주세요🥕")
     };
 
+    formData.append('title', post.title);
+    formData.append('tag', post.tag);
+    formData.append('price', post.price);
+    formData.append('content', post.content);
+    formData.append('location', post.location);
+
+    // console.log(typeof (titleblob, tagblob, priceblob, contentblob, locationblob));
+    for (const keyValue of formData){
+      console.log("Ready to post>>", keyValue[0]+", "+keyValue[1])
+    }
+
+
     try {
 
       // const response = await axios.post("http://localhost:4001/carrotposts",
       const response = await axios.post("http://3.36.71.186:8080/api/auth/post",formData,
-      {...post},
+      // {...post},
       
       {
         headers: {

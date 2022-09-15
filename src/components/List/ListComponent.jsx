@@ -34,7 +34,8 @@ const ListComponent = () => {
         {/* <StHr/> */}
         {post&&post.map((item, index) => {
           return(
-            <div key={item.id} onClick={() => navigator(`/detail/${item.id}`)}>
+            // <div key={item.id} onClick={() => navigator(`/detail/${item.id}`)}> //json-server
+            <div key={item.postId} onClick={() => navigator(`/detail/${item.postId}`)}>
               <Card            
               // key={item.postId}
               postImgUrl={item.postImgUrl}
@@ -44,6 +45,7 @@ const ListComponent = () => {
               location={item.location}
               conetent={item.conetent}
               likeCount={item.likeCount}
+              viewCount={item.viewCount}
               />
             </div>
           )
