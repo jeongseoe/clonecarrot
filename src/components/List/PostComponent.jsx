@@ -79,9 +79,9 @@ const PostComponent = () => {
     try {
 
       // const response = await axios.post("http://localhost:4001/carrotposts",
-      const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
-      // {...post},
-      formData,
+      const response = await axios.post("http://3.36.71.186:8080/api/auth/post",formData,
+      {...post},
+      
       {
         headers: {
           Authorization: `${accessToken}`,
