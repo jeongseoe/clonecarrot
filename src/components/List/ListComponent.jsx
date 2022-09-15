@@ -4,13 +4,14 @@ import axios from 'axios';
 import { colors } from '../../lib/constants/colors';
 import styled from 'styled-components';
 import Card from './Card';
+import { getApi } from '../../shared/Api';
 
 const ListComponent = () => {
 
   const [ post, setPost ] = useState([]);
 
   const fetchPost = async () => {
-    const response = await axios.get("http://localhost:3001/carrotposts"); 
+    const response = await getApi("/api/auth/post"); 
     console.log(response.data)
 
     setPost( response.data );

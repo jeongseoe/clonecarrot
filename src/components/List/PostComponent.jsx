@@ -11,7 +11,7 @@ import { useState } from 'react';
 const PostComponent = () => {
   const navigate = useNavigate();
   // const id = 0 //for json-server
-  const id = axios.get("http://localhost:3001/carrotposts")
+  const id = axios.get("http://3.36.71.186:8080/api/auth/post")
 
   // 초기값
   const initialState = {
@@ -47,7 +47,7 @@ const PostComponent = () => {
     }, []);
 
     return (
-      
+      <div></div>
     );
   };
 
@@ -126,8 +126,8 @@ const PostComponent = () => {
           name='saleContentsImg'
           type="file"
           accept='image/jpg, image/png, image/jpeg, image/gif'
-          ref={inputRef}
-          onChange={onUploadImg}
+          // ref={inputRef}
+          // onChange={onUploadImg}
           />
             {/* <Camera src={camera} alt="camera"/> */}
 
@@ -140,7 +140,7 @@ const PostComponent = () => {
           type="file"
           accept='image/jpg, image/png, image/jpeg, image/gif'
           name='saleContentsImg'
-          onClick={fileInputHandler}
+          // onClick={fileInputHandler}
           required
         >이미지 업로드</StBtn>
         

@@ -2,134 +2,61 @@ import React from "react";
 import styled from "styled-components";
 import ItemImageSample from "./Item.jpg";
 import HeartIMG from "./heart.png";
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import Header from "../Header/Header";
+import { getApi } from "../../shared/Api";
 
 const LoveList = () => {
 
+    const [ post, setPost ] = useState([]);
+
+    const fetchPost = async () => {
+        const response = await getApi("/api/lovelist"); 
+        console.log(response.data)
+
+        setPost( [response.data.data] );
+    }
+
+    useEffect( () => {
+        fetchPost();
+      }, []);
+
+
     return (
         <div>
+            <Header></Header>
             <Body>
                 <Title>내 관심목록</Title>
                 <SaleList>
-                    <Card>
-                        <ItemImage src={ItemImageSample}></ItemImage>
-                        <OnSaleStatus>판매중</OnSaleStatus>
-                        <ItemTitle>
-                            <Text>이름 :</Text>
-                            포트메리온 그릇
-                        </ItemTitle>
-                        <Price>
-                            <Text>가격 :</Text>
-                            50,000원
-                        </Price>
-                        <Location>
-                            <Text>위치 :</Text>
-                            서울시 구로구
-                        </Location>
-                        <Buttons>
-                            <Heart>
-                                <HeartImage src={HeartIMG}></HeartImage>
-                                256251
-                            </Heart>
-                            <Chat>채팅</Chat>
-                        </Buttons>
-                        <Remove>목록제거</Remove>
-                    </Card>
-                    <Card>
-                        <ItemImage src={ItemImageSample}></ItemImage>
-                        <OnSaleStatus>판매중</OnSaleStatus>
-                        <ItemTitle>
-                            <Text>이름 :</Text>
-                            포트메리온 그릇
-                        </ItemTitle>
-                        <Price>
-                            <Text>가격 :</Text>
-                            50,000원
-                        </Price>
-                        <Location>
-                            <Text>위치 :</Text>
-                            서울시 구로구
-                        </Location>
-                        <Buttons>
-                            <Heart>
-                                <HeartImage src={HeartIMG}></HeartImage>
-                                256251
-                            </Heart>
-                            <Chat>채팅</Chat>
-                        </Buttons>
-                        <Remove>목록제거</Remove>
-                    </Card>
-                    <Card>
-                        <ItemImage src={ItemImageSample}></ItemImage>
-                        <OnSaleStatus>판매중</OnSaleStatus>
-                        <ItemTitle>
-                            <Text>이름 :</Text>
-                            포트메리온 그릇
-                        </ItemTitle>
-                        <Price>
-                            <Text>가격 :</Text>
-                            50,000원
-                        </Price>
-                        <Location>
-                            <Text>위치 :</Text>
-                            서울시 구로구
-                        </Location>
-                        <Buttons>
-                            <Heart>
-                                <HeartImage src={HeartIMG}></HeartImage>
-                                256251
-                            </Heart>
-                            <Chat>채팅</Chat>
-                        </Buttons>
-                        <Remove>목록제거</Remove>
-                    </Card>
-                    <Card>
-                        <ItemImage src={ItemImageSample}></ItemImage>
-                        <OnSaleStatus>판매중</OnSaleStatus>
-                        <ItemTitle>
-                            <Text>이름 :</Text>
-                            포트메리온 그릇
-                        </ItemTitle>
-                        <Price>
-                            <Text>가격 :</Text>
-                            50,000원
-                        </Price>
-                        <Location>
-                            <Text>위치 :</Text>
-                            서울시 구로구
-                        </Location>
-                        <Buttons>
-                            <Heart>
-                                <HeartImage src={HeartIMG}></HeartImage>
-                                256251
-                            </Heart>
-                            <Chat>채팅</Chat>
-                        </Buttons>
-                        <Remove>목록제거</Remove>
-                    </Card>
-                    <Card>
-                        <ItemImage src={ItemImageSample}></ItemImage>
-                        <OnSaleStatus>판매중</OnSaleStatus>
-                        <ItemTitle>
-                            <Text>이름 :</Text>
-                            포트메리온 그릇
-                        </ItemTitle>
-                        <Price>
-                            <Text>가격 :</Text>
-                            50,000원
-                        </Price>
-                        <Location>
-                            <Text>위치 :</Text>
-                            서울시 구로구
-                        </Location>
-                        <Buttons>
-                            <Heart>
-                                <HeartImage src={HeartIMG}></HeartImage>
-                                256251
-                            </Heart>
-                            <Chat>채팅</Chat>
-                        </Buttons>
-                        <Remove>목록제거</Remove>
-                    </Card>
+                    {post.map((item, index)=>{
+                        return(
+                            <Card key={index}>
+                                <ItemImage src={ItemImageSample}></ItemImage>
+                                <OnSaleStatus>{item.state}</OnSaleStatus>
+                                <ItemTitle>
+                                    <Text>이름 :</Text>
+                                    {item.title}
+                                </ItemTitle>
+                                <Price>
+                                    <Text>가격 :</Text>
+                                    {item.price}
+                                </Price>
+                                <Location>
+                                    <Text>위치 :</Text>
+                                    {item.location}
+                                </Location>
+                                <Buttons>
+                                    <Heart>
+                                        <HeartImage src={HeartIMG}></HeartImage>
+                                        {item.likeCount}
+                                    </Heart>
+                                    <Chat>채팅</Chat>
+                                </Buttons>
+                                <Remove>목록제거</Remove>
+                            </Card>
+                        )
+                    })}
                 </SaleList>
             </Body>
         </div>

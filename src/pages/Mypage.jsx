@@ -4,36 +4,69 @@ import profileImage from "../components/Mypage/profile.jpg";
 import editImage from "../components/Mypage/profile_edit.png";
 import heartImage from "../components/Mypage/heart.png";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import Header from "../components/Header/Header";
+import { getApi } from "../shared/Api";
 
 const Mypage = () => {
     const navigate = useNavigate();
 
+    const [ post, setPost ] = useState([]);
+
+    const fetchPost = async () => {
+        const response = await getApi("/api/auth/profile")
+        console.log(response.data)
+
+        setPost([response.data.data]);
+    }
+
+    useEffect( () => {
+        fetchPost();
+      }, []);
+
+    
+    console.log(post);
+
     return (
-        <div>
-            <MyStatus>
-                <MyProfile src={profileImage}></MyProfile>
-                <div>
-                    <MyId>신짱구</MyId>
-                    <MyLocation>서울시 구로구 구로동 떡잎유치원</MyLocation>
-                </div>
-                <MyPageEdit src={editImage} onClick={() => navigate('/mypage/edit')}></MyPageEdit>
-            </MyStatus>
-            <MyHeart>
-                <Heart src={heartImage}></Heart>
-                <Text>매너온도</Text>
-                <Numbers>45125</Numbers>
-            </MyHeart>
+        <Div>
+            <Header></Header>
+            <Div1>
+                {post.map((item, index)=>{
+                    return(
+                            <div key={index}>
+                                <MyStatus>
+                                    <MyProfile src={profileImage}></MyProfile>
+                                    <div>
+                                        <MyId>{item.nickname}</MyId>
+                                        <MyLocation>{item.location}</MyLocation>
+                                    </div>
+                                    <MyPageEdit src={editImage} onClick={() => navigate('/mypage/edit')}></MyPageEdit>
+                                </MyStatus>
+                                <MyHeart>
+                                    <Heart src={heartImage}></Heart>
+                                    <Text>매너온도</Text>
+                                    <Numbers>{item.totalLike}</Numbers>
+                                </MyHeart>
+                            </div>
+                        )
+                    })}
+            </Div1>
             <PageBody>
                 <SaleList onClick={() => navigate('/salelist')}>판매내역</SaleList>
                 <BucketList onClick={() => navigate('/lovelist')}>관심목록</BucketList>
             </PageBody>
-        </div>
+        </Div>
     );
 };
 
 export default Mypage;
 
+const Div = styled.div `
 
+`
+const Div1 = styled.div `
+
+`
 const MyStatus = styled.div `
     border: 1px solid lightgrey;
     border-radius: 50px;
