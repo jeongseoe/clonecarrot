@@ -1,9 +1,7 @@
-import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { colors } from '../../lib/constants/colors';
 
 const Card = ({postImgUrl, title, price, location, likeCount}) => {
-
   return (
     <CardArea>
       <ImgPostWrap>
@@ -89,6 +87,7 @@ const SaleBadge = styled.div`
 `
 
 const ContentWrap = styled.div`
+  overflow: hidden;
   margin-left: 5px;
   color: ${colors.black};
 `

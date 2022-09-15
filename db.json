@@ -1,9 +1,32 @@
 {
-  "posts": [
+  "details": [
     {
-      "id": 1,
-      "title": "json-server",
-      "author": "typicode"
+      "id":1,
+      "postImgUrl": "https://www.gstatic.com/devrel-devsite/prod/v1da7b456e5bc02128510243ec52c4436a3a0156c8bef683287ad2905d7856a0e/developers/images/opengraph/google-blue.png",
+      "profileImgUrl": "https://pbs.twimg.com/profile_images/1366808543773384704/8qFXRmFc_400x400.png",
+      "nickname": "nickname",
+      "location": "locations",
+      "likeCount": 100,
+      "title": "testtitle",
+      "state": "statewhat?",
+      "tag": "tags",
+      "price": 2000000,
+      "content": "description",
+      "viewcount": 3000
+    },
+    {
+      "id":2,
+      "postImgUrl": "https://www.gstatic.com/devrel-devsite/prod/v1da7b456e5bc02128510243ec52c4436a3a0156c8bef683287ad2905d7856a0e/developers/images/opengraph/google-blue.png",
+      "profileImgUrl": "https://pbs.twimg.com/profile_images/1366808543773384704/8qFXRmFc_400x400.png",
+      "nickname": "테스트다",
+      "location": "이말이야",
+      "likeCount": 999,
+      "title": "제목이다",
+      "state": "이말이야?",
+      "tag": "분류다!",
+      "price": 2006000,
+      "content": "이마리오리이아",
+      "viewcount": 9000
     }
   ],
   "comments": [
