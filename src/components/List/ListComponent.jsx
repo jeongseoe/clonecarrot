@@ -6,17 +6,20 @@ import styled from 'styled-components';
 import Card from './Card';
 
 const ListComponent = () => {
-
+  const navigator = useNavigate();  
   const [ post, setPost ] = useState([]);
 
   const fetchPost = async () => {
     
-    // const response = await axios.get("http://localhost:3001/carrotposts"); 
+    // const response = await axios.get("http://localhost:4001/carrotposts"); 
     const response = await axios.get("http://3.36.71.186:8080/api/post"); 
-    // console.log(response.data)
     console.log(response.data)
+    // console.log(response.data.data)
 
-    setPost( response.data.data );
+    
+
+    setPost( response.data.data ); //for realserver
+    // setPost( response.data ); //for realserver
   }
 
   useEffect( () => {
@@ -26,13 +29,15 @@ const ListComponent = () => {
   return (
     <>
       <StH1>우리동네 인기매물</StH1>
+      
       <PostLayout>
         {/* <StHr/> */}
         {post&&post.map((item, index) => {
           return(
-            <Card
-              onClick={() => navigator(`/api/post:${item.postId}`)}
-              key={item.postId}
+            // <div key={item.id} onClick={() => navigator(`/detail/${item.id}`)}> //json-server
+            <div key={item.postId} onClick={() => navigator(`/detail/${item.postId}`)}>
+              <Card            
+              // key={item.postId}
               postImgUrl={item.postImgUrl}
               title={item.title}
               tag={item.tag}
@@ -40,7 +45,9 @@ const ListComponent = () => {
               location={item.location}
               conetent={item.conetent}
               likeCount={item.likeCount}
-            />
+              viewCount={item.viewCount}
+              />
+            </div>
           )
         })}
       </PostLayout>

@@ -1,54 +1,96 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { colors } from "../../lib/constants/colors"
 import accountImg from "./account_circle.svg"
+import camera from "../List/camera.svg"
 
 
-
+// /api/post/{postId} 
 const DetailComponent = () => {
+  const  param  = useParams();
+  const id = param.id 
   const navigate = useNavigate();
+  // console.log("param", param)
+  
+  const accessToken = localStorage.getItem("Authorization"); //accesstoken 
+  const refreshToken = localStorage.getItem("RefreshToken") //refreshToken
+  
+  const [detail, setDetail] = useState([]);
+  
+
+
+  const getDetail = async () => {
+    // const response = await axios.get("http://localhost:4001/details"
+    const response = await axios.get(`http://3.36.71.186:8080/api/post/${id}`
+    
+    ,{
+    headers: {
+      Authorization: `${accessToken}`,
+      RefreshToken: `${refreshToken}`,
+      // withCredentials:true, 
+    }  
+    });
+    
+    // console.log("👏 Axios Work >>> ", response)
+    console.log("👏 Axios Work >>> ", response.data.data)
+    setDetail( response.data.data ); // 서버로부터 get
+    // console.log(detail)
+  
+  }
+
+  useEffect(() => {
+    getDetail();
+  }, [])
 
   return (
     <ComponentWrap>
-      <ToggleBtnWrap>
+      {accessToken&refreshToken
+      ?<ToggleBtnWrap>
         <ToggleBtn>수정하기</ToggleBtn>
         <ToggleBtn>삭제하기</ToggleBtn>
-        <ToggleBtn>판매완료</ToggleBtn>
+        <ToggleBtn style={{border: "none"}}>
+          {detail.state==="판매완료"?"판매완료":"판매중"}
+        </ToggleBtn>
       </ToggleBtnWrap>
+      :null}
       <ImgPostWrap>
-      <ImgContainer>
-            {/* <Camera src={camera} alt="camera"/> */}
-            {/* <img src={} alt="post image"/> */}
-      </ImgContainer>
-      </ImgPostWrap>
-      
-      
+        <ImgContainer>
+          {detail.postImgUrl===""
+          ?<Camera src={camera} alt="camera"/>
+          :<StImg src={detail.postImgUrl} alt="post image"/>}  
+        </ImgContainer>
+      </ImgPostWrap>      
       <UserInfo>
         <ProfileContatiner>
           <ImgWrap>
-            <AccountImg src={accountImg} alt="Account Img"/>
+            {detail.profileImgUrl===""
+            ?<AccountImg src={accountImg} alt="account image"/>
+            :<StImg src={detail.profileImgUrl} alt="post image"/>}
+            
           </ImgWrap>
-          <div>
-            <div>아이디</div>
-            <div>위치</div>
-          </div>
+          <ProfileNickname>
+            <Nickname>{detail.nickname}</Nickname>
+            <Location>{detail.location}</Location>
+          </ProfileNickname>
         </ProfileContatiner>
-        <div>
-          <div>좋아요 수</div>
-          <div>좋아요 버튼</div>
-        </div>
+        <LikeWrap>
+          <UserLikeCount>{detail.likeCount}</UserLikeCount>
+          <LikeBtn>🧡</LikeBtn>
+        </LikeWrap>
       </UserInfo>
       
       <StHr/>
 
       <DescWrap>
-        <DescH2>title</DescH2>
-        <DescDiv>분류 | 게시 시간</DescDiv>
-        <DescH3>가격</DescH3>
-        <DescScrpt>게시글 본문</DescScrpt>
+        <DescH2>{detail.title}</DescH2>
+        <DescDiv>{detail.tag}</DescDiv>
+        <DescH3>{detail.price} 원</DescH3>
+        <DescScrpt>{detail.content}</DescScrpt>
         <DescInfoWrap>
-          <span>좋아요 수</span>
-          <span>{". 조회수"}</span>
+          <span>좋아요 {detail.likeCount}</span>
+          <DescViewCount>조회수 {detail.viewcount}</DescViewCount>
         </DescInfoWrap>
         
       </DescWrap>
@@ -61,32 +103,33 @@ export default DetailComponent;
 
 const ComponentWrap = styled.div`
   width: 60vw;
-  margin: 40px auto;
-  
-  /* background-color: green; */
+  margin: 60px auto;
   `
 
 const ToggleBtnWrap = styled.div`
+  height: 50px;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: ${colors.orange};;
+  border-radius: 0.4rem;
+
+  
+
 `
 
 const ToggleBtn = styled.button`
-width: 10vw;
-margin: 20px auto;
+width: 100%;
+height: 70%;
+/* margin: 20px auto; */
 color: ${colors.white};
-background-color: ${colors.orange};;
-
 font-size: 1rem;
 font-weight: 800;
-
+background-color: transparent;
 border: none;
-border-radius: 0.6rem;
+border-right: 1px solid ${colors.white};
 
-display: flex;
-align-items: center;
-justify-content: center;
+
 
 cursor: pointer;
 
@@ -97,7 +140,7 @@ cursor: pointer;
 `
 
 const ImgPostWrap = styled.div`
-  width: 90%;
+  width: 100%;
   margin: auto;
   margin-top: 50px;
   position: relative;
@@ -112,6 +155,7 @@ const ImgPostWrap = styled.div`
 
 const ImgContainer = styled.div`
   position: absolute;
+  overflow: hidden;
   width: 100%;
   height: 100%;
   
@@ -119,6 +163,27 @@ const ImgContainer = styled.div`
   border: 2px solid ${colors.lightgray};
   border-radius: 10px;
   /* background-color: ${colors.white}; */
+`
+
+const Camera = styled.img`
+  filter: invert(88%) sepia(0%) saturate(0%) hue-rotate(156deg) brightness(80%) contrast(84%);
+  height: 20%;
+  padding-top: 35%;
+  margin: 0px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`
+
+
+const StImg = styled.img`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 100%;
+  box-sizing: border-box;
+  border-radius: 1.5rem;
 `
     
 const UserInfo = styled.div`
@@ -129,12 +194,39 @@ const UserInfo = styled.div`
 `
 
 const ProfileContatiner = styled.div`
-  width: 200px;
-  height: 100px;
+  position: relative;
+  /* width: fit-content; */
+  padding: 4px 0px;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: flex-start; */
+
+  background-color: gray;
+  :after{
+    content: "";
+    display: block;
+    padding-bottom: 2%;
+  }
+
+`
+
+const LikeWrap = styled.div`
+  color: ${colors.orange};
+  font-weight: 600;
   display: flex;
   align-items: center;
-  background-color: white;
+  justify-content: end;
+`
 
+const UserLikeCount = styled.div`
+  margin-right: 5px;
+`
+
+const LikeBtn = styled.button`
+  font-size: 1.4rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 `
 
 const StHr = styled.hr`
@@ -146,13 +238,23 @@ const StHr = styled.hr`
 `
 
 const ImgWrap = styled.div`
-  width: 100px;
-  height: 100px;
-  display: flex;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate( 10%);
+`
 
-  /* background-color: gray; */
-  border: none;
-  border-radius: 50%;
+const ProfileNickname = styled.div`
+  margin-left: 5vw;
+  
+`
+
+const Nickname = styled.div`
+  color: ${colors.black};
+  font-weight: 700;
+`
+const Location = styled.div`
+  color: ${colors.lightgray};
 `
 
 const AccountImg = styled.img`
@@ -207,9 +309,12 @@ const DescScrpt = styled.div`
 const DescInfoWrap = styled.div`
   padding-top: 20px;
   color: ${colors.lightgray};
-  display: flex;
+  font-size: 0.9rem;
 `
-
+const DescViewCount = styled.span`
+  position: absolute;
+  left: 49%;
+`
 
 const StBtn = styled.button`
 width: 18vw;

@@ -48,6 +48,18 @@
       "price": "300000",
       "content": "아직도 따뜻합니다!",
       "location": "test_Location"
+    },
+    {
+      "id": 5
+    },
+    {
+      "id": 6
+    },
+    {
+      "id": 7
+    },
+    {
+      "id": 8
     }
   ]
 }
