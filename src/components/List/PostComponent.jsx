@@ -7,7 +7,6 @@ import camera from "./camera.svg"
 import { useState } from 'react';
 
 
-// test commit
 const PostComponent = () => {
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("Authorization"); //accesstoken 
@@ -19,33 +18,33 @@ const PostComponent = () => {
     tag: "",
     price: "",
     content: "",
-    location: ""
-  }
+    location: "testLocations"
+  };
 
   const [ post, setPost ] = useState(initialState); // post input value
-  // const [ num, setNum ] = useState(0); // 숫자 콤마찍기 챌린지
-  const [salePostImg, setSalePostImg] = useState(null); // img input value
+  const [postImg, setPostImg] = useState(""); // img input value
+  const [formData] = useState(new FormData())
   
-
   // Event Handler
   // Img Upload hadler
   const inputRef = useRef(null);
-  const onUploadImg = useCallback((e)=>{
-    if (!e.target.files) {
-      return;
-    }
-    const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-    setSalePostImg(formData)
-    // console formData
-    console.log(e.target.files[0].name);//여기까진 옴
-    console.log("폼데이터", formData)
-    for (const keyValue of formData) console.log(keyValue); // ["image", file] file은 객체
-    console.log("세일즈포스트이미지:",salePostImg)
+  const onUploadImg = useCallback((fileBlob)=>{
+    formData.append('file', fileBlob);
+    for (const keyValue of formData){
+      console.log(keyValue[0]+", "+keyValue[1])
+    };
+    
+    const reader = new FileReader();
+    reader.readAsDataURL(fileBlob);
+    return new Promise((resolve) => {
+      reader.onload = () => {
+        setPostImg(reader.result);
+        resolve();
+      };
+    });   
+    
   }, []);
-
-
-
+  // console.log("포스트이미지scr:", postImg)
 
   // btn use ref
   const fileInputBtnClick = useCallback(() => {
@@ -79,19 +78,18 @@ const PostComponent = () => {
 
     try {
 
-      const response = await axios.post("http://localhost:3001/carrotposts",
-      // const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
-      {...post, salePostImg},
-      // {form-data: formData},
+      // const response = await axios.post("http://localhost:4001/carrotposts",
+      const response = await axios.post("http://3.36.71.186:8080/api/auth/post",
+      // {...post},
+      formData,
       {
         headers: {
-          // Authorization: `Bearer ${accessToken}`,
-          // RefreshToken: `Bearer ${refreshToken}`, 
+          Authorization: `${accessToken}`,
+          RefreshToken: `${refreshToken}`, 
           'Content-Type': 'multipart/form-data',
-        },
+        }
       }); 
       console.log("👏 Axios Work >>> ", response)
-      console.log("🖼 formData >>> ", salePostImg)
       setPost(initialState)
 
       if (response.status === 200 || 201) {
@@ -107,16 +105,14 @@ const PostComponent = () => {
       window.alert("🥒ERROR🥒")
       console.error(error);
       setPost(initialState)
+      setPostImg("")
     }
   };
-
-
 
   useEffect(() => {
 
   }, []);
 
-  //제일 상위 div  -> form 으로 
   //location data는 어떻게 어디로 주는지?
   return(
     <div> 
@@ -132,11 +128,11 @@ const PostComponent = () => {
             accept='image/jpg, image/png, image/jpeg, image/gif'
             style={{ display: "none" }}
             ref={inputRef}
-            onChange={onUploadImg}
+            onChange={(e) => {onUploadImg(e.target.files[0])}}
           />
-            {salePostImg===null
+            {postImg===""
             ?<Camera src={camera} alt="camera"/>
-            :<StImg src={salePostImg} alt="postImg"/>}
+            :<StImg src={postImg} alt="postImg"/>}
           </ImgContainer>
         </ImgPostWrap>
         <StBtn onClick={fileInputBtnClick}>이미지 업로드</StBtn>
@@ -165,14 +161,7 @@ const PostComponent = () => {
                 <option value="books">도서</option>
                 <option value="others">기타 중고물품</option>
               </StSelect>
-              {/* <StInput 
-                name="price" 
-                type="text"
-                value={num}
-                onChange={(e)=> setNum(inputPriceFormat(e.target.value))}
-                placeholder='₩ 가격'
-                min="0"
-                /> */}
+             
               <StInput 
                 name="price" 
                 type="number"
@@ -192,7 +181,6 @@ const PostComponent = () => {
             <StHr/>
             <StBtn type="submit">내 매물 올리기</StBtn>
           </StForm>
-          
       </ComponentWrap>
     </div>
   )
@@ -234,7 +222,7 @@ const ImgContainer = styled.div`
   position: absolute;
   width: 100%;
   height: 100%;
-
+  overflow: hidden;
   border: 2px solid ${colors.lightgray};
   border-radius: 10px;
   background-color: ${colors.white};
@@ -253,6 +241,7 @@ const Camera = styled.img`
 `
 const StImg = styled.img`
   position: absolute;
+  
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -350,6 +339,7 @@ const StTextarea = styled.textarea`
   border: 0px;
   padding-top: 20px;
   padding-left: 10px;
+  resize: none;
   
   
 
