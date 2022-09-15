@@ -1,70 +1,55 @@
-# Getting Started with Create React App
+# 🐰당근마켓 클론코딩🐰
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+#### [와이어프레임 | API 설계 | (frontend + backend)](https://www.notion.so/acho/4-S-A-bb46343e3e5e4f3f944e419e3ebc2705)
 
-## Available Scripts
+>### **로그인 화면**
 
-In the project directory, you can run:
+![로그인화면](https://user-images.githubusercontent.com/109732299/190322583-882274b8-2e28-4787-98e3-5ea345c9ec79.png)
 
-### `yarn start`
+#### 🔗 기능1
+        * 로그인 해서 토큰생성
+        * Oauth2 카카오 로그인
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+>### **회원가입 화면**
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+![회원가입 화면](https://user-images.githubusercontent.com/109732299/190323563-5a5248c9-5d30-44a9-ae2d-9899f8b81ba3.png)
 
-### `yarn test`
+#### 🔗 기능2
+        * 회원가입
+        * 서버에 nickname password 저장하여 로그인할 때 서버로 불러올수 있게함.
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `yarn build`
+>### **리스트 목록 화면**
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+![리스트 목록 페이지 ](https://user-images.githubusercontent.com/109732299/190323764-7cdd7c3a-8a2f-4c4a-9de1-2c87193ac1f7.png)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### 🔗 기능3
+        * 로그인 했을 때 토큰을 인식하여 로그 아웃 버튼 및 마이페이지 버튼 생기게 조건부를 헤더에 달아둠
+        * 서버에 저장된 리스트목록을 불러와 화면에 띄우고 카드를 눌렀을 때 게시글 상세페이지로 가게끔 navigate를 걸어둠
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+>### **포스트 작성 화면**
 
-### `yarn eject`
+![포스트 화면](https://user-images.githubusercontent.com/109732299/190324017-0148643b-6583-4a76-9efd-2f96f83e11b0.png)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### 🔗 기능3
+      * 게시글 상세페이지에 들어가서 수정 또는 삭제 버튼은 로그인했을때의 토큰을 확인하여 그 게시물을 작석한 사람만 사용할 수 있게함
+      * 이미지와 텍스트 목록들을 formdata 형식으로 서버로 보냄
+      * 작성 된 포스트는 리스트 목록화면에 바로 띄워지게함
+---
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### 진행상황
+현재 아직 마이페이지 및 포스트 기능구현 시행중임.
+채팅 기능 구현도 현재 구현 못한상태임.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Trouble shooting
+1. 헤더 개발을 할 때 토큰을 가지고 있는지 확인을 해서 버튼을 숨기거나 보이게하는 기능을 넣고싶었으나 토큰확인방법을 못찾음
+    → token을 localstorige에 login할때 담아두기 때문에 거기서 가지고오는 방법을 찾음.
+    → token ===0; 이라는 조건을 넣었지만, 로그아웃 됐을 때 버튼의 변화가 따로 없어 0을 null값으로 변경했더니 문제가 해결됨.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+2. 서버 배포 후 카카오 로그인 인가코드가  프론트엔드에서 서버로 넘어오지 않는 문제  
+    → 카카오 어플리케이션 도메인을 배포한 서버 주소로 변경  
+    → 프론트엔드와 백엔드 API CLIENT KEY, REDIRECT URL 주소 통일
