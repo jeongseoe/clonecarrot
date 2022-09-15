@@ -37,7 +37,7 @@ const ListComponent = () => {
             // <div key={item.id} onClick={() => navigator(`/detail/${item.id}`)}> //json-server
             <div key={item.postId} onClick={() => navigator(`/detail/${item.postId}`)}>
               <Card            
-              // key={item.postId}
+              state={item.state}
               postImgUrl={item.postImgUrl}
               title={item.title}
               tag={item.tag}

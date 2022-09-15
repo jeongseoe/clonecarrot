@@ -188,6 +188,7 @@ const PostComponent = () => {
                 value={post.price}
                 onChange={onChangeHandler}
                 placeholder='₩ 가격'
+                maxLength="10" 
                 min="0"
                 />
               <StTextarea 
