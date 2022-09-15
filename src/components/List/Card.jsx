@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { colors } from '../../lib/constants/colors';
 
-const Card = ({postImgUrl, title, price, location, likeCount, viewCount}) => {
+const Card = ({postImgUrl, title, price, location, likeCount, viewCount, state}) => {
   return (
     <CardArea>
       <ImgPostWrap>
@@ -10,14 +10,16 @@ const Card = ({postImgUrl, title, price, location, likeCount, viewCount}) => {
         </ImgContatiner>
       </ImgPostWrap>
 
-      <SaleBadge>판매완료</SaleBadge>
+      {state==="판매중"?<SaleBadge>판매중</SaleBadge>:
+      <SaleBadge>판매완료</SaleBadge>}
       <ContentWrap>
           <StTitle>{title}</StTitle>
           <StPrice>{price} 원</StPrice>
           <StLocation>{location}</StLocation>
         <StStatus>
           <span>좋아요 {likeCount}</span>
-          <StBtn>{viewCount}</StBtn>
+          <StSpan>조회수 {viewCount}</StSpan>
+          {/* <StBtn>{viewCount}</StBtn> */}
         </StStatus>
       </ContentWrap>
     </CardArea>
@@ -80,10 +82,14 @@ const SaleBadge = styled.div`
   color: ${colors.white};
   border: none;
   border-radius: 0.5rem;
-  background-color: ${colors.gray};
+  background-color: ${colors.orange};
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+const SaleFinBadge = styled(SaleBadge)`
+  background-color: ${colors.gray};
 `
 
 const ContentWrap = styled.div`
@@ -110,10 +116,15 @@ const StStatus = styled.div`
   color: ${colors.lightgray};
   display: flex;
   justify-content: space-between;
-
 `
 
+const StSpan = styled.span`
+  padding-right: 35%;
+`
+
+
 const StBtn = styled.button`
+  
   height: 100%;
   margin-top: -10px;
   margin-right: 5px;

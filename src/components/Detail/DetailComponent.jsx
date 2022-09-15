@@ -18,27 +18,63 @@ const DetailComponent = () => {
   const refreshToken = localStorage.getItem("RefreshToken") //refreshToken
   
   const [detail, setDetail] = useState([]);
+  const [postAuthToken, setPostAuthToken] = useState(null)
   
 
 
   const getDetail = async () => {
     // const response = await axios.get("http://localhost:4001/details"
     const response = await axios.get(`http://3.36.71.186:8080/api/post/${id}`
-    
     ,{
     headers: {
       Authorization: `${accessToken}`,
       RefreshToken: `${refreshToken}`,
-      // withCredentials:true, 
     }  
     });
     
     // console.log("👏 Axios Work >>> ", response)
     console.log("👏 Axios Work >>> ", response.data.data)
+    // console.log("👏 Axios Work >> ", response.config.headers.RefreshToken)
     setDetail( response.data.data ); // 서버로부터 get
+    setPostAuthToken(response.data.data.RefreshToken)
     // console.log(detail)
   
   }
+
+  // const stateHandler = async () => {
+  //   const states = await axios.post
+  //   detail.state==="판매중"?"판매중":"판매완료"
+  // }
+
+  const onClickHandler = async () => {
+    
+
+    try{
+    // 좋아요 axios.patch
+    const likeState = await axios.patch(`http://3.36.71.186:8080/api/auth/like/${detail.postId}`,
+    {
+      headers: {
+        Authorization: `${accessToken}`,
+        RefreshToken: `${refreshToken}`,
+      }  
+    });
+    console.log("likePatch!!!>>", likeState.data)
+    // 좋아요 취소 axios.patch
+    const dislikeState = likeState.data.success===false
+    ?await axios.patch(`http://3.36.71.186:8080/api/auth/dislike/${detail.postId}`,
+    {
+      headers: {
+        Authorization: `${accessToken}`,
+        RefreshToken: `${refreshToken}`,
+      }  
+    }):null
+    console.log("dislikePatch!!!>>", dislikeState.data)
+
+    }catch(error){
+      console.error(error)
+    };
+  }
+
 
   useEffect(() => {
     getDetail();
@@ -46,12 +82,13 @@ const DetailComponent = () => {
 
   return (
     <ComponentWrap>
-      {accessToken&refreshToken
+      {detail.nowRefreshToken===detail.refreshToken
       ?<ToggleBtnWrap>
         <ToggleBtn>수정하기</ToggleBtn>
         <ToggleBtn>삭제하기</ToggleBtn>
         <ToggleBtn style={{border: "none"}}>
-          {detail.state==="판매완료"?"판매완료":"판매중"}
+          {/* {detail.state==="판매완료"?"판매완료":"판매중"} */}
+          {detail.state}
         </ToggleBtn>
       </ToggleBtnWrap>
       :null}
@@ -65,24 +102,24 @@ const DetailComponent = () => {
       <UserInfo>
         <ProfileContatiner>
           <ImgWrap>
-            {detail.profileImgUrl===""
+            {detail.profileImgUrl===null
             ?<AccountImg src={accountImg} alt="account image"/>
             :<StImg src={detail.profileImgUrl} alt="post image"/>}
             
           </ImgWrap>
           <ProfileNickname>
-            <Nickname>{detail.nickname}</Nickname>
+            <Nickname>{detail.author}</Nickname>
             <Location>{detail.location}</Location>
           </ProfileNickname>
         </ProfileContatiner>
-        <LikeWrap>
+        <LikeWrap onClick={onClickHandler}>
           <UserLikeCount>{detail.likeCount}</UserLikeCount>
           <LikeBtn>🧡</LikeBtn>
         </LikeWrap>
       </UserInfo>
       
       <StHr/>
-
+      
       <DescWrap>
         <DescH2>{detail.title}</DescH2>
         <DescDiv>{detail.tag}</DescDiv>
@@ -90,7 +127,7 @@ const DetailComponent = () => {
         <DescScrpt>{detail.content}</DescScrpt>
         <DescInfoWrap>
           <span>좋아요 {detail.likeCount}</span>
-          <DescViewCount>조회수 {detail.viewcount}</DescViewCount>
+          <DescViewCount>조회수 {detail.viewCount}</DescViewCount>
         </DescInfoWrap>
         
       </DescWrap>
@@ -200,8 +237,7 @@ const ProfileContatiner = styled.div`
   display: flex;
   /* align-items: center; */
   /* justify-content: flex-start; */
-
-  background-color: gray;
+  /* background-color: gray; */
   :after{
     content: "";
     display: block;
@@ -239,14 +275,13 @@ const StHr = styled.hr`
 
 const ImgWrap = styled.div`
   position: relative;
-  top: 50%;
+  /* top: 50%;
   left: 50%;
-  transform: translate( 10%);
+  transform: translate( 10%); */
 `
 
 const ProfileNickname = styled.div`
-  margin-left: 5vw;
-  
+  margin-left: 1.5vw;  
 `
 
 const Nickname = styled.div`
